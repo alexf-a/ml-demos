@@ -1,5 +1,8 @@
 '''
-    This is code for a basic Logistic Regression model, implemented from scratch (ie. no SK-Learn).
+    This is code for a basic Logistic Regression model.
+    Achieved 89% test accuracy on the MNIST data-set
+
+    The code assumes that class labels are 1-hot encoded vectors.
 
     HOW TO USE:
         - Compute weights for a Logistic Regression model using lr_optimized_weights on your training data.
@@ -11,8 +14,11 @@ import numpy as np
 from autograd.scipy.misc import logsumexp
 
 
+NUM_CLASSES = 10
+NUM_FEATURES = 784
+
 def softmax(c, x, w):
-    '''Return a 10 X 784 matrix where element ci represents softmax value p(c|x_i, w).
+    '''Return a NUM_CLASSES X NUM_FEATURES matrix where element ci represents softmax value p(c|x_i, w).
     '''
     wc_x = np.exp(np.dot(w[c], x))
     denom = np.matmul(w, x)
@@ -23,7 +29,7 @@ def softmax(c, x, w):
 
 
 def softmax_grad(c, x, w):
-    '''Return a 10 element vector where element i represents the derivative of softmax(c, x, w)
+    '''Return a NUM_CLASSES element vector where element i represents the derivative of softmax(c, x, w)
      wrt w_i '''
     return np.matrix([_softmax_grad(c_prime, c, x, w) for c_prime in range(10)])
 
@@ -37,9 +43,9 @@ def _softmax_grad(c_prime, c, x, w):
 
 
 def lr_optimized_weights(points, l, num_epochs):
-    '''Return a 10 X 784 matrix, representing weights optimized by num_epochs of vanilla gradient descent
+    '''Return a NUM_CLASSES X NUM_FEATURES matrix, representing weights optimized by num_epochs of vanilla gradient descent
     over points with softmax gradient and step size l.'''
-    w = np.zeros((10, 784))
+    w = np.zeros((NUM_CLASSES, NUM_FEATURES))
     for t in range(num_epochs):
         for point in points:
             w+= l*softmax_grad(np.argmax(point), point, w)
