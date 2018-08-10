@@ -1,6 +1,6 @@
 '''
 This is code for a basic Naive Bayes model.
-Achieved 89% test accuracy on the MNIST data-set.
+Achieved 84% test accuracy on the MNIST data-set.
 
 Assumes class labels are 1-hot encoded vectors.
 
